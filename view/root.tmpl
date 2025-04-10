@@ -4,7 +4,7 @@
 
 {{ define "content" }}
   {{ template "header" . }}
-  <h3>登录</h3>
+  <h3>登录账户</h3>
 
   {{ $dividerNeeded := false }}
 
@@ -81,36 +81,6 @@
       and click "Login".
     </li>
   </ol>
-
-  <h4>其他启动器</h4>
-
-  <p>
-    使用 authlib-injector 地址
-    <a href="{{ .App.AuthlibInjectorURL }}">{{ .App.AuthlibInjectorURL }}</a>。
-  </p>
-
-  <p>
-    或者，如果您的启动器支持自定义 API 服务器，但不支持 authlib-injector，请使用以下地址：
-  </p>
-
-  <table>
-    <tr>
-      <td>Authentication Server:</td>
-      <td>{{ .App.AuthURL }}</td>
-    </tr>
-    <tr>
-      <td>Account Server:</td>
-      <td>{{ .App.AccountURL }}</td>
-    </tr>
-    <tr>
-      <td>Session Server:</td>
-      <td>{{ .App.SessionURL }}</td>
-    </tr>
-    <tr>
-      <td>Services Server:</td>
-      <td>{{ .App.ServicesURL }}</td>
-    </tr>
-  </table>
 
   {{ template "footer" . }}
 {{ end }}

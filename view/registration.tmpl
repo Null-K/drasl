@@ -1,6 +1,6 @@
 {{ template "layout" . }}
 
-{{ define "title" }}注册 - {{ .App.Config.ApplicationName }}{{ end }}
+{{ define "title" }}注册账户 - {{ .App.Config.ApplicationName }}{{ end }}
 
 {{ define
   "content"
@@ -34,14 +34,14 @@
       <div class="divider">or</div>
       {{ $dividerNeeded = false }}
     {{ end }}
-    <h3>注册</h3>
+    <h3>注册账户</h3>
     {{ if and .App.Config.RegistrationNewPlayer.RequireInvite (not .InviteCode) }}
       <p>Registration as a new player is invite-only.</p>
     {{ else }}
       {{ if .App.Config.RegistrationNewPlayer.AllowChoosingUUID }}
         <p>Register a new account:</p>
       {{ else }}
-        <p>注册一个随机 UUID 的新账户：</p>
+        <p>注册一个新账户：</p>
       {{ end }}
       <form action="{{ .App.FrontEndURL }}/web/register" method="post">
         <input
@@ -82,7 +82,7 @@
           <p><em>Using invite code {{ .InviteCode }}</em></p>
         {{ end }}
         <p>
-          <input type="submit" value="Register" />
+          <input type="submit" value="注册" />
         </p>
       </form>
     {{ end }}
