@@ -1,6 +1,6 @@
 {{ template "layout" . }}
 
-{{ define "title" }}Register - {{ .App.Config.ApplicationName }}{{ end }}
+{{ define "title" }}注册 - {{ .App.Config.ApplicationName }}{{ end }}
 
 {{ define
   "content"
@@ -34,20 +34,20 @@
       <div class="divider">or</div>
       {{ $dividerNeeded = false }}
     {{ end }}
-    <h3>Register</h3>
+    <h3>注册</h3>
     {{ if and .App.Config.RegistrationNewPlayer.RequireInvite (not .InviteCode) }}
       <p>Registration as a new player is invite-only.</p>
     {{ else }}
       {{ if .App.Config.RegistrationNewPlayer.AllowChoosingUUID }}
         <p>Register a new account:</p>
       {{ else }}
-        <p>Register a new account with a random UUID:</p>
+        <p>注册一个随机 UUID 的新账户：</p>
       {{ end }}
       <form action="{{ .App.FrontEndURL }}/web/register" method="post">
         <input
           type="text"
           name="playerName"
-          placeholder="Username"
+          placeholder="用户名"
           maxlength="{{ .App.Constants.MaxUsernameLength }}"
           required
         />
@@ -60,7 +60,7 @@
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="密码"
           minlength="{{ .App.Config.MinPasswordLength }}"
           class="long"
           required

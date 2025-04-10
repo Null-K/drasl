@@ -16,7 +16,7 @@
     <h3><img class="openid-logo" src="{{ .App.PublicURL }}/openid-logo.svg" alt="OpenID logo"></h3>
     {{ range $provider := $.WebOIDCProviders }}
         <p>
-          <a href="{{ $provider.AuthURL }}">Sign in with {{ $provider.Name }}</a>
+          <a href="{{ $provider.AuthURL }}">使用 {{ $provider.Name }} 登录</a>
         </p>
     {{ end }}
     {{ $dividerNeeded = true }}
@@ -24,7 +24,7 @@
 
   {{ if .App.Config.AllowPasswordLogin }}
     {{ if $dividerNeeded }}
-      <div class="divider">or</div>
+      <div class="divider">或</div>
       {{ $dividerNeeded = false }}
     {{ end }}
     <form action="{{ .App.FrontEndURL }}/web/login" method="post">
@@ -45,15 +45,11 @@
 
   <h3>配置你的客户端</h3>
   <p>
-    Using {{ .App.Config.ApplicationName }} on the client requires a third-party launcher that supports
-    custom API servers.
-    <a href="https://github.com/unmojang/FjordLauncher">Fjord Launcher</a>, a
-    fork of Prism Launcher, is recommended, but
-    <a href="https://github.com/huanghongxun/HMCL">HMCL</a> also works. Both are
-    free/libre.
+    在客户端使用 {{ .App.Config.ApplicationName }} 需要一个支持自定义 API 服务器的第三方启动器。
+    推荐使用 <a href="https://download.hexdragon.top">PCL</a> 或 <a href="https://github.com/huanghongxun/HMCL">HMCL</a>。
   </p>
 
-  <h4>Fjord Launcher</h4>
+  <h4>PCL</h4>
 
   <ol>
     <li>
@@ -86,16 +82,15 @@
     </li>
   </ol>
 
-  <h4>Other Launchers</h4>
+  <h4>其他启动器</h4>
 
   <p>
-    Use the authlib-injector URL
-    <a href="{{ .App.AuthlibInjectorURL }}">{{ .App.AuthlibInjectorURL }}</a>.
+    使用 authlib-injector 地址
+    <a href="{{ .App.AuthlibInjectorURL }}">{{ .App.AuthlibInjectorURL }}</a>。
   </p>
 
   <p>
-    Or, if your launcher supports custom API servers but not via
-    authlib-injector, use the following URLs:
+    或者，如果您的启动器支持自定义 API 服务器，但不支持 authlib-injector，请使用以下地址：
   </p>
 
   <table>
@@ -116,62 +111,6 @@
       <td>{{ .App.ServicesURL }}</td>
     </tr>
   </table>
-
-  <h3>Configuring your server</h3>
-
-  <h4>Minecraft 1.16 and later</h4>
-
-  On recent versions of Minecraft, you can use {{ .App.Config.ApplicationName }} on an unmodified Vanilla
-  server. To do so, add the following arguments before you specify the jar file
-  when you start the server:
-  <pre style="word-wrap: break-word; white-space: pre-wrap; overflow-x: auto">
--Dminecraft.api.env=custom
--Dminecraft.api.auth.host={{ .App.AuthURL }}
--Dminecraft.api.account.host={{ .App.AccountURL }}
--Dminecraft.api.session.host={{ .App.SessionURL }}
--Dminecraft.api.services.host={{ .App.ServicesURL }}</pre>
-
-  For example, the full command you use to start the server might be:
-  <pre style="word-wrap: break-word; white-space: pre-wrap; overflow-x: auto">
-java -Xmx1024M -Xms1024M \
-    -Dminecraft.api.env=custom \
-    -Dminecraft.api.auth.host={{ .App.AuthURL }} \
-    -Dminecraft.api.account.host={{ .App.AccountURL }} \
-    -Dminecraft.api.session.host={{ .App.SessionURL }} \
-    -Dminecraft.api.services.host={{ .App.ServicesURL }} \
-    -jar server.jar nogui</pre>
-
-  <h4>Minecraft 1.7.2 through 1.15.2</h4>
-
-  <p>
-    Refer to the authlib-injector documentation on setting up a server:
-    <a
-      href="https://github.com/yushijinhun/authlib-injector/blob/develop/README.en.md#deploy"
-      >https://github.com/yushijinhun/authlib-injector/blob/develop/README.en.md#deploy</a
-    >.
-  </p>
-
-  <p>
-    Alternatively, you can patch your server to use a newer version of Mojang's authlib that supports the arguments for custom API servers. Replace the files under <code>com/mojang/authlib</code> in your <code>server.jar</code> with the files in <a href="https://libraries.minecraft.net/com/mojang/authlib/1.6.25/authlib-1.6.25.jar">authlib-1.6.25.jar</a>.
-  </p>
-
-  <h4><a href="https://minecraft.wiki/w/Java_Edition_Late_Classic">Late Classic</a>, Alpha, Beta, etc. through Minecraft 1.6.4</h4>
-
-  <p>
-    Use <a href="https://github.com/craftycodie/OnlineModeFix">OnlineModeFix</a> and start the server with the <code>-Dminecraft.api.*.host</code> arguments described above. For example, the full command you use to start the server might be:
-
-    <pre style="word-wrap: break-word; white-space: pre-wrap; overflow-x: auto">
-java -Xmx1024M -Xms1024M \
-    -Dminecraft.api.env=custom \
-    -Dminecraft.api.auth.host={{ .App.AuthURL }} \
-    -Dminecraft.api.account.host={{ .App.AccountURL }} \
-    -Dminecraft.api.session.host={{ .App.SessionURL }} \
-    -Dminecraft.api.services.host={{ .App.ServicesURL }} \
-    -Djava.protocol.handler.pkgs=gg.codie.mineonline.protocol \
-    -cp server.jar:OnlineModeFix.jar \
-    net.minecraft.server.MinecraftServer \
-    nogui</pre>
-  </p>
 
   {{ template "footer" . }}
 {{ end }}
