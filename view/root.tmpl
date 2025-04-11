@@ -4,110 +4,118 @@
 
 {{ define "content" }}
   {{ template "header" . }}
-  
-  <div class="space-y-8">
-    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">登录账户</h1>
+  <h3>Log in</h3>
 
-    {{ $dividerNeeded := false }}
+  {{ $dividerNeeded := false }}
 
-    {{ if gt (len .WebOIDCProviders) 0 }}
-      <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-        <h3 class="text-xl font-semibold mb-4 flex items-center justify-center">
-          <img class="h-6 w-auto mr-2" src="{{ .App.PublicURL }}/openid-logo.svg" alt="OpenID logo">
-          <span>第三方登录</span>
-        </h3>
-        <div class="grid gap-3 md:grid-cols-2">
-          {{ range $provider := $.WebOIDCProviders }}
-            <a href="{{ $provider.AuthURL }}" class="flex items-center justify-center px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-gray-700 font-medium">
-              <span>使用 {{ $provider.Name }} 登录</span>
-            </a>
-          {{ end }}
-        </div>
-      </div>
-      {{ $dividerNeeded = true }}
+  {{ if gt (len .WebOIDCProviders) 0 }}
+    {{ if $dividerNeeded }}
+      <div class="divider">or</div>
+      {{ $dividerNeeded = false }}
     {{ end }}
-
-    {{ if .App.Config.AllowPasswordLogin }}
-      {{ if $dividerNeeded }}
-        <div class="divider">或</div>
-      {{ end }}
-      <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-        <h3 class="text-xl font-semibold mb-4 text-center">账号密码登录</h3>
-        <form action="{{ .App.FrontEndURL }}/web/login" method="post" class="space-y-4">
-          <div>
-            <label for="username" class="block text-sm font-medium text-gray-700 mb-1">用户名</label>
-            <input 
-              type="text" 
-              id="username"
-              name="username" 
-              placeholder="请输入用户名" 
-              required 
-              class="w-full"
-            />
-          </div>
-          <div>
-            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">密码</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="请输入密码"
-              required
-              class="w-full"
-            />
-          </div>
-          <input hidden name="returnUrl" value="{{ .URL }}" />
-          <input hidden name="destination" value="{{ .Destination }}" />
-          <div class="pt-2">
-            <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors font-medium">
-              登录
-            </button>
-          </div>
-        </form>
-      </div>
+    <h3><img class="openid-logo" src="{{ .App.PublicURL }}/openid-logo.svg" alt="OpenID logo"></h3>
+    {{ range $provider := $.WebOIDCProviders }}
+        <p>
+          <a href="{{ $provider.AuthURL }}">Sign in with {{ $provider.Name }}</a>
+        </p>
     {{ end }}
+    {{ $dividerNeeded = true }}
+  {{ end }}
 
-    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 mt-8">
-      <h2 class="text-2xl font-bold mb-4 text-gray-800">配置你的客户端</h2>
-      <p class="mb-6 text-gray-600">
-        在客户端使用 {{ .App.Config.ApplicationName }} 需要一个支持自定义 API 服务器的第三方启动器。
-        推荐使用 <a href="https://download.hexdragon.top" class="text-indigo-600 hover:text-indigo-800 underline">PCL</a> 或 
-        <a href="https://github.com/huanghongxun/HMCL" class="text-indigo-600 hover:text-indigo-800 underline">HMCL</a>。
-      </p>
+  {{ if .App.Config.AllowPasswordLogin }}
+    {{ if $dividerNeeded }}
+      <div class="divider">or</div>
+      {{ $dividerNeeded = false }}
+    {{ end }}
+    <form action="{{ .App.FrontEndURL }}/web/login" method="post">
+      <input type="text" name="username" placeholder="Username" required />
+      <input hidden name="returnUrl" value="{{ .URL }}" />
+      <input hidden name="destination" value="{{ .Destination }}" />
+      <input
+        class="long"
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+      />
+      <input type="submit" value="Log in" />
+    </form>
+    {{ $dividerNeeded = true }}
+  {{ end }}
 
-      <div class="space-y-6">
-        <div class="bg-gray-50 p-4 rounded-lg">
-          <h3 class="text-xl font-semibold mb-3 text-gray-800">PCL</h3>
-          <ol class="list-decimal pl-5 space-y-2 text-gray-700">
-            <li>点击右上角的账户并选择"管理账户..."</li>
-            <li>在右侧边栏中点击"添加 authlib-injector"</li>
-            <li>
-              输入您的玩家名称和 {{ .App.Config.ApplicationName }} 密码或 Minecraft 令牌，并使用
-              <a href="{{ .App.AuthlibInjectorURL }}" class="text-indigo-600 hover:text-indigo-800 break-all">{{ .App.AuthlibInjectorURL }}</a>
-              作为 URL。点击"确定"。
-            </li>
-          </ol>
-        </div>
+  <h3>Configuring your client</h3>
+  <p>
+    Using {{ .App.Config.ApplicationName }} on the client requires a third-party launcher that supports
+    custom API servers.
+    <a href="https://github.com/unmojang/FjordLauncher">Fjord Launcher</a>, a
+    fork of Prism Launcher, is recommended, but
+    <a href="https://github.com/huanghongxun/HMCL">HMCL</a> also works. Both are
+    free/libre.
+  </p>
 
-        <div class="bg-gray-50 p-4 rounded-lg">
-          <h3 class="text-xl font-semibold mb-3 text-gray-800">HMCL</h3>
-          <ol class="list-decimal pl-5 space-y-2 text-gray-700">
-            <li>通过点击侧边栏顶部的账户进入"账户列表"视图。</li>
-            <li>
-              在左下角，点击"新建认证服务器"并输入
-              <a href="{{ .App.AuthlibInjectorURL }}" class="text-indigo-600 hover:text-indigo-800 break-all">{{ .App.AuthlibInjectorURL }}</a>。
-              点击"下一步"，然后点击"完成"。
-            </li>
-            <li>
-              在侧边栏中，点击新添加的认证服务器，标记为
-              "{{ .App.Config.InstanceName }}"。输入您的 {{ .App.Config.ApplicationName }} 玩家名称和密码，
-              然后点击"登录"。
-            </li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
+  <h4>Fjord Launcher</h4>
+
+  <ol>
+    <li>
+      Click your account in the top right and select "Manage Accounts...".
+    </li>
+    <li>Click "Add authlib-injector" in the right-hand sidebar.</li>
+    <li>
+      Enter your player name and your {{ .App.Config.ApplicationName }} password or Minecraft Token, and use
+      <a href="{{ .App.AuthlibInjectorURL }}">{{ .App.AuthlibInjectorURL }}</a>
+      for the URL. Click "OK".
+    </li>
+  </ol>
+
+  <h4>HMCL</h4>
+
+  <ol>
+    <li>
+      Go to the "Account List" view by clicking the account at the top of the
+      sidebar.
+    </li>
+    <li>
+      At the bottom left, click "New Auth Server" and enter
+      <a href="{{ .App.AuthlibInjectorURL }}">{{ .App.AuthlibInjectorURL }}</a>.
+      Click "Next" and then "Finish".
+    </li>
+    <li>
+      In the sidebar, click the newly-added authentication server, labeled
+      "{{ .App.Config.InstanceName }}". Enter your {{ .App.Config.ApplicationName }} player name and password
+      and click "Login".
+    </li>
+  </ol>
+
+  <h4>Other Launchers</h4>
+
+  <p>
+    Use the authlib-injector URL
+    <a href="{{ .App.AuthlibInjectorURL }}">{{ .App.AuthlibInjectorURL }}</a>.
+  </p>
+
+  <p>
+    Or, if your launcher supports custom API servers but not via
+    authlib-injector, use the following URLs:
+  </p>
+
+  <table>
+    <tr>
+      <td>Authentication Server:</td>
+      <td>{{ .App.AuthURL }}</td>
+    </tr>
+    <tr>
+      <td>Account Server:</td>
+      <td>{{ .App.AccountURL }}</td>
+    </tr>
+    <tr>
+      <td>Session Server:</td>
+      <td>{{ .App.SessionURL }}</td>
+    </tr>
+    <tr>
+      <td>Services Server:</td>
+      <td>{{ .App.ServicesURL }}</td>
+    </tr>
+  </table>
 
   {{ template "footer" . }}
 {{ end }}
