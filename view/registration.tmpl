@@ -41,7 +41,7 @@
       {{ if .App.Config.RegistrationNewPlayer.AllowChoosingUUID }}
         <p>Register a new account:</p>
       {{ else }}
-        <p>注册一个新账户：</p>
+        <p>注册一个全新账户：</p>
       {{ end }}
       <form action="{{ .App.FrontEndURL }}/web/register" method="post">
         <input
@@ -71,7 +71,7 @@
               class="long"
               type="text"
               name="uuid"
-              placeholder="Player UUID (leave blank for random)"
+              placeholder="玩家 UUID（留空以随机生成）"
               pattern="^[0-9a-f]{8}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{12}$"
             />
           </p>
@@ -79,7 +79,7 @@
         <input type="text" name="inviteCode" value="{{ .InviteCode }}" hidden />
         <input hidden name="returnUrl" value="{{ .URL }}" />
         {{ if .InviteCode }}
-          <p><em>Using invite code {{ .InviteCode }}</em></p>
+          <p><em>使用邀请码 {{ .InviteCode }}</em></p>
         {{ end }}
         <p>
           <input type="submit" value="注册" />

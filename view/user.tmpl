@@ -1,6 +1,6 @@
 {{ template "layout" . }}
 
-{{ define "title" }}{{ .TargetUser.Username }}'s Account - {{ .App.Config.ApplicationName }}{{ end }}
+{{ define "title" }}{{ .TargetUser.Username }} 的账户 - {{ .App.Config.ApplicationName }}{{ end }}
 
 {{ define "content" }}
 
@@ -42,10 +42,10 @@
     <table>
       <thead>
         <tr>
-          <td colspan="2">Player</td>
+          <td colspan="2">玩家名</td>
           <td>UUID</td>
           {{ if or .App.Config.AllowAddingDeletingPlayers .User.IsAdmin }}
-            <td>Delete Player</td>
+            <td>删除玩家</td>
           {{ end }}
         </tr>
       </thead>
@@ -71,7 +71,7 @@
             <td>{{ $player.UUID }}</td>
             {{ if or $.App.Config.AllowAddingDeletingPlayers $.User.IsAdmin }}
               <td>
-                <input type="submit" form="delete-{{ $player.UUID }}" value="Delete" />
+                <input type="submit" form="delete-{{ $player.UUID }}" value="删除" />
               </td>
             {{ end }}
           </tr>
@@ -200,7 +200,7 @@
     {{ end }}
   {{ end }}
 
-  <h3>Account settings</h3>
+  <h3>账户设置</h3>
   <form
     action="{{ .App.FrontEndURL }}/web/update-user"
     method="post"
@@ -222,19 +222,19 @@
     {{ end }}
     {{ if and .App.Config.AllowPasswordLogin (eq (len $.LinkedOIDCProviderNames) 0) }}
       <p>
-        <label for="password">Password</label><br />
+        <label for="password">密码</label><br />
         <input
           type="password"
           name="password"
           id="password"
           class="long"
-          placeholder="Leave blank to keep"
+          placeholder="留空保持不变"
         />
       </p>
     {{ end }}
     <p>
-      <label for="minecraftToken">Minecraft Token</label><br>
-      <small>Can be used instead of a password to sign in to Minecraft launchers.</small><br>
+      <label for="minecraftToken">Minecraft 令牌</label><br>
+      <small>可以用于代替密码登录 Minecraft 启动器。</small><br>
       <input
         type="text"
         name="minecraftToken"
@@ -245,14 +245,14 @@
       />
       <br>
       <label for="reset-minecraft-token"
-        >check the box to reset your Minecraft token
+        >勾选此框重置你的 Minecraft 令牌：
       </label>
       <input type="checkbox" name="resetMinecraftToken" id="reset-minecraft-token" />
     </p>
     <p>
-      <label for="apiToken">API Token</label><br />
+      <label for="apiToken">API 令牌</label><br />
       {{ if ne .App.Constants.SwaggerUIURL  "" }}
-        <small>See the <a href="{{ .App.Constants.SwaggerUIURL }}/?url={{ .App.APIURL }}/swagger.json">{{ .App.Config.ApplicationName }} API documentation</a>.</small><br />
+        <small>详见 <a href="{{ .App.Constants.SwaggerUIURL }}/?url={{ .App.APIURL }}/swagger.json">{{ .App.Config.ApplicationName }} API 文档</a>。</small><br />
       {{ end }}
       <input
         type="text"
@@ -264,13 +264,13 @@
       />
       <br />
       <label for="reset-api-token"
-        >check the box to reset your API token
+        >勾选此框重置你的 API 令牌：
       </label>
       <input type="checkbox" name="resetApiToken" id="reset-api-token" />
     </p>
     <p>
       <label for="preferred-language"
-        >Preferred Language (used by Minecraft)</label
+        >首选语言（Minecraft 中使用的语言）</label
       ><br />
       <select
         name="preferredLanguage"
@@ -558,12 +558,12 @@
     <input hidden name="uuid" value="{{ .TargetUser.UUID }}" />
     <input hidden name="returnUrl" value="{{ .URL }}" />
     <p style="text-align: center;">
-      <input type="submit" value="Save changes" />
+      <input type="submit" value="保存更改" />
     </p>
   </form>
   <p>
     <details>
-      <summary>Delete account</summary>
+      <summary>删除账户</summary>
       <form
         action="{{ .App.FrontEndURL }}/web/delete-user"
         method="post"
@@ -579,7 +579,7 @@
             {{ .App.FrontEndURL }}
           {{ end }}"
         />
-        <input type="submit" value="Delete account" />
+        <input type="submit" value="删除账户" />
       </form>
     </details>
   </p>

@@ -1,12 +1,12 @@
 {{ template "layout" . }}
 
-{{ define "title" }}Admin - {{ .App.Config.ApplicationName }}{{ end }}
+{{ define "title" }}管理面板 - {{ .App.Config.ApplicationName }}{{ end }}
 
 {{ define "content" }}
   {{ template "header" . }}
 
 
-  <h4>Pending Invites</h4>
+  <h4>待使用的邀请</h4>
 
   <div style="text-align: right">
     <form
@@ -15,15 +15,15 @@
       method="post"
     >
       <input hidden name="returnUrl" value="{{ .URL }}" />
-      <input type="submit" value="+ New Invite" />
+      <input type="submit" value="+ 新建邀请" />
     </form>
   </div>
   {{ if .Invites }}
     <table>
       <thead>
         <tr>
-          <td style="width: 50%">Link</td>
-          <td>Date Generated</td>
+          <td style="width: 50%">邀请链接</td>
+          <td>创建时间</td>
           <td></td>
         </tr>
       </thead>
@@ -50,7 +50,7 @@
                   value="{{ $invite.Code }}"
                   hidden
                 />
-                <input type="submit" value="× Delete" />
+                <input type="submit" value="× 删除" />
               </form>
             </td>
           </tr>
@@ -58,10 +58,10 @@
       </tbody>
     </table>
   {{ else }}
-    No invites to show.
+    没有待使用的邀请。
   {{ end }}
 
-  <h4>All Users</h4>
+  <h4>所有用户</h4>
 
   <div style="display: none">
     {{ range $user := .Users }}
@@ -89,12 +89,12 @@
     <table>
       <thead>
         <tr>
-          <td colspan="2">User</td>
-          <td>Players</td>
-          <td>Max # players*</td>
-          <td>Admin</td>
-          <td>Locked</td>
-          <td>Delete Account</td>
+          <td colspan="2">用户</td>
+          <td>玩家名</td>
+          <td>最大可拥有玩家数量</td>
+          <td>管理员</td>
+          <td>锁定</td>
+          <td>删除账户</td>
         </tr>
       </thead>
       <tbody>
@@ -130,7 +130,7 @@
                 name="max-player-count-{{ $user.UUID }}"
                 type="number"
                 {{ if $user.IsAdmin }}
-                  title="Admins can always create unlimited players"
+                  title="管理员始终可以创建无限数量的玩家账户"
                   disabled
                 {{ end }}
                 value="{{ if or $user.IsAdmin (eq $user.MaxPlayerCount $.App.Constants.MaxPlayerCountUnlimited) }}-1{{ else if eq $user.MaxPlayerCount $.App.Constants.MaxPlayerCountUseDefault}}{{ else }}{{ $user.MaxPlayerCount }}{{ end }}"
@@ -171,17 +171,17 @@
               <input
                 type="submit"
                 form="delete-{{ $user.UUID }}"
-                value="× Delete"
+                value="× 删除"
               />
             </td>
           </tr>
         {{ end }}
       </tbody>
     </table>
-    <p><small>*Specify -1 to allow an unlimited number of players. Leave blank to use the default max number, which is {{ $.App.Config.DefaultMaxPlayerCount }}.</small></p>
+    <p><small>*指定 -1 表示允许创建无限数量的玩家账户。留空则使用默认最大值，即 {{ $.App.Config.DefaultMaxPlayerCount }}。</small></p>
     <p style="text-align: center">
       <input hidden name="returnUrl" value="{{ $.URL }}" />
-      <input type="submit" value="Save changes" />
+      <input type="submit" value="保存更改" />
     </p>
   </form>
 
