@@ -1,41 +1,53 @@
 {{ define "header" }}
-  <nav class="header-nav">
-    <div>
-      <a class="logo" href="{{ .App.FrontEndURL }}">
+  <nav class="bg-white/90 backdrop-blur-sm shadow-md rounded-lg p-4 mb-6 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+      <a class="flex items-center text-xl font-semibold text-gray-800 hover:text-indigo-600 transition-colors" href="{{ .App.FrontEndURL }}">
         <img
           src="{{ .App.PublicURL }}/logo.svg"
           alt="{{ .App.Config.ApplicationName }} logo"
-        />{{ .App.Config.ApplicationName }}
+          class="h-8 w-auto mr-2"
+        />
+        <span>{{ .App.Config.ApplicationName }}</span>
       </a>
     </div>
-    <div style="text-align: right">
+    <div class="flex items-center space-x-4">
       {{ if .User }}
         {{ if .User.IsAdmin }}
-          <a href="{{ .App.FrontEndURL }}/web/admin">管理面板</a>
+          <a href="{{ .App.FrontEndURL }}/web/admin" class="text-gray-600 hover:text-indigo-600 transition-colors">管理面板</a>
         {{ end }}
-        <a href="{{ .App.FrontEndURL }}/web/user"
-          >{{ .User.Username }} 的账户</a
-        >
+        <a href="{{ .App.FrontEndURL }}/web/user" class="text-gray-600 hover:text-indigo-600 transition-colors">
+          {{ .User.Username }} 的账户
+        </a>
         <form
-          style="display: inline"
+          class="inline"
           action="{{ .App.FrontEndURL }}/web/logout"
           method="post"
         >
-          <input type="submit" value="注销" />
+          <button type="submit" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md transition-colors">
+            注销
+          </button>
         </form>
       {{ else }}
-        <a href="{{ .App.FrontEndURL }}/web/registration">注册</a>
+        <a href="{{ .App.FrontEndURL }}/web/registration" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md transition-colors">
+          注册
+        </a>
       {{ end }}
     </div>
   </nav>
 
   {{ if .ErrorMessage }}
-    <p class="error-message">{{ .ErrorMessage }}</p>
+    <div class="mb-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-md animate-fade-in">
+      <p>{{ .ErrorMessage }}</p>
+    </div>
   {{ end }}
   {{ if .SuccessMessage }}
-    <p class="success-message">{{ .SuccessMessage }}</p>
+    <div class="mb-6 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded-md animate-fade-in">
+      <p>{{ .SuccessMessage }}</p>
+    </div>
   {{ end }}
   {{ if .WarningMessage }}
-    <p class="warning-message">{{ .WarningMessage }}</p>
+    <div class="mb-6 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 rounded-md animate-fade-in">
+      <p>{{ .WarningMessage }}</p>
+    </div>
   {{ end }}
 {{ end }}
